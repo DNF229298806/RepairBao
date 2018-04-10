@@ -3,6 +3,8 @@ package cn.edu.zwu.repairbao;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -23,11 +25,17 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
@@ -35,8 +43,10 @@ import java.util.List;
 
 import cn.edu.zwu.repairbao.db.MarkInfo;
 
+import static cn.edu.zwu.repairbao.R.drawable.mark;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarkerClickListener, BaiduMap.OnMapClickListener {
 
     public LocationClient mLocationClient;
 
@@ -84,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         map_type = (ImageView) findViewById(R.id.map_type);
         expandMap = (ImageView) findViewById(R.id.add_scale);
         narrowMap = (ImageView) findViewById(R.id.low_scale);
+        addMarks = (ImageView) findViewById(R.id.map_marker);
+        markLayout = (LinearLayout) findViewById(R.id.mark_layout);
         road_condition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 narrowMapScale();
             }
         });
+        //得到baiduMap实例
         baiduMap = bdMapView.getMap();
         baiduMap.setMyLocationEnabled(true);
         List<String> permissionList = new ArrayList<>();
@@ -143,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         mLocationClient.start();
         //清除百度地图的logo和比例尺以及缩放尺
         changeDefaultBaiduMapView();
+        addMapMarks();
     }
 
     private void initLocation() {
@@ -265,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public class MyLocationListener implements BDLocationListener {
 
         @Override
@@ -360,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @author zhongqihong
+     * @author wyb
      * 放大地图的比例
      */
     private void narrowMapScale() {
@@ -370,13 +385,133 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @author zhongqihong
+     * @author wyb
      * 缩小地图的比例
      */
     private void expandMapScale() {
         current += 0.5f;
         MapStatusUpdate msu2 = MapStatusUpdateFactory.zoomTo(15.0f + current);
         baiduMap.animateMapStatus(msu2);
+    }
+
+    /**
+     * @author Mikyou
+     * 添加覆盖物
+     */
+    private void addMapMarks() {
+        initMarksData();
+        baiduMap.clear();//先清除一下图层
+        LatLng latLng = null;
+        Marker marker = null;
+        OverlayOptions options;
+        myMarks = BitmapDescriptorFactory.fromResource(mark);//引入自定义的覆盖物图标，将其转化成一个BitmapDescriptor对象
+        //遍历MarkInfo的List一个MarkInfo就是一个Mark
+        for (int i = 0; i < markInfoList.size(); i++) {
+            //经纬度对象
+            latLng = new LatLng(markInfoList.get(i).getLatitude(), markInfoList.get(i).getLongitude());//需要创建一个经纬对象，通过该对象就可以定位到处于地图上的某个具体点
+            //图标
+            options = new MarkerOptions().position(latLng).icon(myMarks).zIndex(6);
+            marker = (Marker) baiduMap.addOverlay(options);//将覆盖物添加到地图上
+            Bundle bundle = new Bundle();//创建一个Bundle对象将每个mark具体信息传过去，当点击该覆盖物图标的时候就会显示该覆盖物的详细信息
+            bundle.putSerializable("mark", markInfoList.get(i));
+            marker.setExtraInfo(bundle);
+        }
+        MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);//通过这个经纬度对象，地图就可以定位到该点
+        baiduMap.animateMapStatus(msu);
+    }
+
+    /**
+     * /**
+     *
+     * @author wyb
+     * 初始化覆盖物信息数据
+     */
+    //32.079254, 118.787623
+    private void initMarksData() {
+        markInfoList = new ArrayList<MarkInfo>();
+        markInfoList.add(new MarkInfo(32.079254,118.787623,"地点","类型","报价","维修时间","报修信息","用户姓名","手机",null));
+        markInfoList.add(new MarkInfo(32.064355, 118.787624, "火星哈哈", "修电脑","50万 " ,"2018年4月10日-2018年4月13日", "电脑爆炸了呵呵呵","石乐志","17899992222",null));
+       // markInfoList.add(new MarkInfo(28.7487420000, 115.8748860000, R.drawable.pic1, "华东交通大学南区", "距离5米", 888));
+       // markInfoList.add(new MarkInfo(28.7534890000, 115.8767960000, R.drawable.pic1, "华东交通大学北区", "距离10米", 188));
+        baiduMap.setOnMarkerClickListener(this);
+        baiduMap.setOnMapClickListener(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Bundle bundle = marker.getExtraInfo();
+        MarkInfo MyMarker = (MarkInfo) bundle.getSerializable("mark");
+        TextView tv_Repair_Loc_Content = (TextView) findViewById(R.id.tv_repair_loc_content);
+        TextView tv_Repair_Type = (TextView) findViewById(R.id.tv_repair_type_content);
+        TextView tv_User_Quote_Content = (TextView) findViewById(R.id.tv_user_quote_content);
+        TextView tv_Repair_User_Time_Content = (TextView) findViewById(R.id.tv_repair_user_time_content);
+        TextView tv_Breakdown_Content = (TextView) findViewById(R.id.tv_breakdown_content);
+        tv_Repair_Loc_Content.setText(MyMarker.getRepair_loc());
+        tv_Repair_Type.setText(MyMarker.getRepair_type());
+        tv_User_Quote_Content.setText(MyMarker.getUser_quote());
+        tv_Repair_User_Time_Content.setText(MyMarker.getUser_time());
+        tv_Breakdown_Content.setText(MyMarker.getBreakdown_content());
+        //ImageView iv = (ImageView) markLayout.findViewById(R.id.mark_image);
+        //TextView distanceTv = (TextView) markLayout.findViewById(R.id.distance);
+        //TextView nameTv = (TextView) markLayout.findViewById(R.id.name);
+        //TextView zanNumsTv = (TextView) markLayout.findViewById(R.id.zan_nums);
+        //iv.setImageResource(MyMarker.getimageId());
+        //distanceTv.setText(MyMarker.getDistance() + "");
+        //nameTv.setText(MyMarker.getName());
+        //zanNumsTv.setText(MyMarker.getZanNum() + "");
+
+        //初始化一个InfoWindow
+        initInfoWindow(MyMarker, marker);
+        markLayout.setVisibility(View.VISIBLE);
+        return true;
+    }
+
+    /**
+     * @author wyb
+     * 初始化出一个InfoWindow
+     */
+    private void initInfoWindow(MarkInfo MyMarker, Marker marker) {
+        // TODO Auto-generated method stub
+        InfoWindow infoWindow;
+        //InfoWindow中显示的View内容样式，显示一个TextView
+        TextView infoWindowTv = new TextView(MainActivity.this);
+        //infoWindowTv.setBackgroundResource(R.drawable.location_tips);
+        infoWindowTv.setPadding(30, 20, 30, 50);
+        infoWindowTv.setText(MyMarker.getRepair_loc());
+        infoWindowTv.setTextColor(Color.parseColor("#000000"));
+        infoWindowTv.setTextSize(15);
+        final LatLng latLng = marker.getPosition();
+        Point p = baiduMap.getProjection().toScreenLocation(latLng);//将地图上的经纬度转换成屏幕中实际的点
+        p.y -= 47;//设置屏幕中点的Y轴坐标的偏移量
+        LatLng ll = baiduMap.getProjection().fromScreenLocation(p);//把修改后的屏幕的点有转换成地图上的经纬度对象
+        /**
+         * @author mikyou
+         * 实例化一个InfoWindow的对象
+         * public InfoWindow(View view,LatLng position, int yOffset)通过传入的 view 构造一个 InfoWindow, 此时只是利用该view生成一个Bitmap绘制在地图中，监听事件由开发者实现。
+         *  参数:
+         * view - InfoWindow 展示的 view
+         * position - InfoWindow 显示的地理位置
+         * yOffset - InfoWindow Y 轴偏移量
+         * */
+        infoWindow = new InfoWindow(infoWindowTv, ll, 10);
+        baiduMap.showInfoWindow(infoWindow);//显示InfoWindow
+    }
+
+    /**
+     * @author zhongqihong
+     * 给整个地图添加的点击事件
+     */
+    @Override
+    public void onMapClick(LatLng arg0) {
+        //表示点击地图其他的地方使得覆盖物的详情介绍的布局隐藏，但是点击已显示的覆盖物详情布局上，则不会消失，因为在详情布局上添加了Clickable=true
+        //由于事件的传播机制，因为点击事件首先会在覆盖物布局的父布局(map)中,由于map是可以点击的，map则会把点击事件给消费掉，如果加上Clickable=true表示点击事件由详情布局自己处理，不由map来消费
+        markLayout.setVisibility(View.GONE);
+        baiduMap.hideInfoWindow();//隐藏InfoWindow
+    }
+
+    @Override
+    public boolean onMapPoiClick(MapPoi mapPoi) {
+        return false;
     }
 
     @Override
