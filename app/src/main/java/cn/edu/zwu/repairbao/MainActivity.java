@@ -7,12 +7,17 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
 
     private MyLocationListener myListener = new MyLocationListener();
 
+    private ImageButton ib_My_Info;
+
+    private DrawerLayout dl_Drawer_Layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
         narrowMap = (ImageView) findViewById(R.id.low_scale);
         addMarks = (ImageView) findViewById(R.id.map_marker);
         markLayout = (LinearLayout) findViewById(R.id.mark_layout);
+        ib_My_Info = (ImageButton) findViewById(R.id.ib_my_info);
+        dl_Drawer_Layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navView = (NavigationView) findViewById(R.id.nv_side_bar);
         road_condition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +130,32 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
             @Override
             public void onClick(View v) {
                 narrowMapScale();
+            }
+        });
+        ib_My_Info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl_Drawer_Layout.openDrawer(GravityCompat.START);
+                System.out.println("111111111");
+            }
+        });
+        navView.setCheckedItem(R.id.it_nav_call);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (R.id.it_nav_call == item.getItemId()) {
+                    Toast.makeText(MainActivity.this,"未完成订单",Toast.LENGTH_SHORT).show();
+                }else if (R.id.it_nav_friends==item.getItemId()){
+                    Toast.makeText(MainActivity.this,"完成订单",Toast.LENGTH_SHORT).show();
+                }else if (R.id.it_nav_location==item.getItemId()){
+                    Toast.makeText(MainActivity.this,"我的信息",Toast.LENGTH_SHORT).show();
+                }else if (R.id.it_nav_mail==item.getItemId()){
+                    Toast.makeText(MainActivity.this,"滚出去",Toast.LENGTH_SHORT).show();
+                }else if (R.id.it_nav_task==item.getItemId()){
+                    Toast.makeText(MainActivity.this,"嘿嘿嘿？？？！！！",Toast.LENGTH_SHORT).show();
+                }
+                dl_Drawer_Layout.closeDrawers();
+                return true;
             }
         });
         //得到baiduMap实例
@@ -429,10 +467,10 @@ public class MainActivity extends AppCompatActivity implements BaiduMap.OnMarker
     //32.079254, 118.787623
     private void initMarksData() {
         markInfoList = new ArrayList<MarkInfo>();
-        markInfoList.add(new MarkInfo(32.079254,118.787623,"地点","类型","报价","维修时间","报修信息","用户姓名","手机",null));
-        markInfoList.add(new MarkInfo(32.064355, 118.787624, "火星哈哈", "修电脑","50万 " ,"2018年4月10日-2018年4月13日", "电脑爆炸了呵呵呵","石乐志","17899992222",null));
-       // markInfoList.add(new MarkInfo(28.7487420000, 115.8748860000, R.drawable.pic1, "华东交通大学南区", "距离5米", 888));
-       // markInfoList.add(new MarkInfo(28.7534890000, 115.8767960000, R.drawable.pic1, "华东交通大学北区", "距离10米", 188));
+        markInfoList.add(new MarkInfo(32.079254, 118.787623, "地点", "类型", "报价", "维修时间", "报修信息", "用户姓名", "手机", null));
+        markInfoList.add(new MarkInfo(32.064355, 118.787624, "火星哈哈", "修电脑", "50万 ", "2018年4月10日-2018年4月13日", "电脑爆炸了呵呵呵", "石乐志", "17899992222", null));
+        // markInfoList.add(new MarkInfo(28.7487420000, 115.8748860000, R.drawable.pic1, "华东交通大学南区", "距离5米", 888));
+        // markInfoList.add(new MarkInfo(28.7534890000, 115.8767960000, R.drawable.pic1, "华东交通大学北区", "距离10米", 188));
         baiduMap.setOnMarkerClickListener(this);
         baiduMap.setOnMapClickListener(this);
     }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ib_my_info"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#FFF"
+        android:src="@drawable/icon_home_user_no_login"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/search_panorama"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff"
+            android:drawablePadding="10dp"
+            android:hint="搜地点、查公交、找路线"
+            android:padding="10dp"
+            android:textColor="#000"
+            android:textColorHint="#aacccccc"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/ok_to_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:src="@drawable/icon_line_to_blue"
+            />
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/ok_to_search"
+            android:background="#22000000"
+            android:padding="5dp"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

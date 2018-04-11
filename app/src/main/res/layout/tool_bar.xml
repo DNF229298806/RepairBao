@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="100dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/road_condition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:scaleType="centerInside"
+        android:src="@drawable/main_icon_roadcondition_off"/>
+
+    <ImageView
+        android:id="@+id/map_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#fff"
+        android:scaleType="centerInside"
+        android:src="@drawable/main_icon_map_type"/>
+
+    <!--<ImageView
+        android:id="@+id/map_panorama"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/add_poi_map_selection_btn_pressed"
+        android:scaleType="centerInside"
+        android:src="@drawable/main_map_icon_streetscape_selected"/>
+
+    <ImageView
+        android:id="@+id/map_gotogether"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/add_poi_map_selection_btn_pressed"
+        android:scaleType="centerInside"
+        android:src="@drawable/map_main_icon_location_share"/>
+
+    <ImageView
+        android:id="@+id/map_location"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/add_poi_map_selection_btn_pressed"
+        android:scaleType="centerInside"
+        android:src="@drawable/track_collect_running"/>
+
+    <ImageView
+        android:id="@+id/map_marker"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/add_poi_map_selection_btn_pressed"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_select_point"/>-->
+
+    <ImageView
+        android:id="@+id/map_marker"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/icon_home_user_no_login"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_home_user_no_login"/>
+</LinearLayout>
