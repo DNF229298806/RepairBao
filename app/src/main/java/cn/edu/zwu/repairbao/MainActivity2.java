@@ -1,6 +1,7 @@
 package cn.edu.zwu.repairbao;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +26,7 @@ import com.baidu.mapapi.map.MapView;
 
 import java.util.List;
 
-import cn.edu.zwu.repairbao.db.MarkInfo;
+import cn.edu.zwu.repairbao.bean.MarkInfo;
 import cn.edu.zwu.repairbao.impl.OnMapClickImpl;
 import cn.edu.zwu.repairbao.impl.OnMarkerClickImpl;
 import cn.edu.zwu.repairbao.util.BaiDuMapUtil;
@@ -75,13 +77,17 @@ public class MainActivity2 extends AppCompatActivity {
 
     private NavigationView nv_nav_View;
 
+    private Button bt_Rob_Order;
+
+    private Button bt_See_Details;
+
     private OnMapClickImpl mOnMapClickImpl;
 
     private OnMarkerClickImpl mOnMarkerClickImpl;
 
     private BaiDuMapUtil mBaiDuMapUtil;
     //权限数组
-    private String [] arr_permission ={Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_PHONE_STATE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String[] arr_permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +110,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * 初始化控件
      */
-    private void initControl(){
+    private void initControl() {
         tv_Position = (TextView) findViewById(R.id.tv_position);
         bdMapView = (MapView) findViewById(R.id.bmapView);
         road_condition = (ImageView) findViewById(R.id.road_condition);
@@ -116,6 +122,8 @@ public class MainActivity2 extends AppCompatActivity {
         ib_My_Info = (ImageButton) findViewById(R.id.ib_my_info);
         dl_Drawer_Layout = (DrawerLayout) findViewById(R.id.drawer_layout);
         nv_nav_View = (NavigationView) findViewById(R.id.nv_side_bar);
+        bt_Rob_Order = (Button) findViewById(R.id.bt_rob_order);
+        bt_See_Details = (Button) findViewById(R.id.bt_see_details);
         baiduMap = bdMapView.getMap();  //得到百度地图实例
         baiduMap.setMyLocationEnabled(true);    //设置我的位置图层开启
         mOnMapClickImpl = new OnMapClickImpl(this, baiduMap);   //实例化对应的接口实现类
@@ -127,7 +135,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * 注册监听
      */
-    private void setListeners(){
+    private void setListeners() {
         road_condition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +166,7 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dl_Drawer_Layout.openDrawer(GravityCompat.START);
-                System.out.println("111111111");
+                //System.out.println("111111111");
             }
         });
         nv_nav_View.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -179,7 +187,26 @@ public class MainActivity2 extends AppCompatActivity {
                 return true;
             }
         });
+
+        bt_Rob_Order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //进行抢单
+                Toast.makeText(MainActivity2.this,"抢到了哈哈哈",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        bt_See_Details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity2.this, DetailsActivity.class);
+                //看看要不要传数据过去
+                startActivity(intent);
+                Toast.makeText(MainActivity2.this,"点击了查看详情",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
     /**
      * 向百度公司请求定位
      */

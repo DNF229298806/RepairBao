@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/sv_weather_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cn.edu.zwu.repairbao.ImageSlideshow
+                    android:id="@+id/is_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="212dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="订单状态："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/state_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="已完成"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="雇主姓名："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/username_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="王麻子"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系方式："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/phone_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="18371807450"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="维修地点："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/loc_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="浙江万里学院浙江万里学院浙江万里学院浙江万里学院浙江万里学院"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="维修类型："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/type_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="家电大师"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户报价："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/user_quote_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="100-200"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="期望维修时间："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/user_time_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2018年4月11日-2018年4月22日"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="问题信息描述："
+                    android:textColor="#3c3f41"/>
+
+                <TextView
+                    android:id="@+id/breakdown_content_details_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="啊暑假都卡还是阿萨德空间哈萨克和的开始的看华卡实践活动空间哈萨克的好事卡时间段卡啥的刻录机阿斯达斯的阿萨德阿萨德阿萨单杀的阿萨德阿萨打算的顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶阿萨德阿萨德阿萨德阿萨德阿萨阿萨德阿萨德请问驱蚊器而且阿萨自行车自行车阿萨德阿萨阿萨德阿萨德请问无群阿萨德安卓自行车阿萨德阿萨请问请问阿萨德阿萨阿萨德阿萨德阿萨大声道请问阿萨德自行车水电费水电费阿萨德阿萨德阿萨德阿萨阿萨德阿萨了看见爱上的理科嫁了谁看得见了卡时间段离开家阿里卡时间段离开家阿萨德"
+                    android:textColor="#3c3f41"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <Button
+                    android:id="@+id/bt_call_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="联系雇主"/>
+
+                <Button
+                    android:id="@+id/bt_rob_order_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="抢单"/>
+
+                <Button
+                    android:id="@+id/bt_back_order_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="退单"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

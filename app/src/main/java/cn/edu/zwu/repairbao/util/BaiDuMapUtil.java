@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zwu.repairbao.R;
-import cn.edu.zwu.repairbao.db.MarkInfo;
+import cn.edu.zwu.repairbao.bean.MarkInfo;
 import cn.edu.zwu.repairbao.impl.OnMapClickImpl;
 import cn.edu.zwu.repairbao.impl.OnMarkerClickImpl;
 
@@ -42,16 +42,17 @@ import static cn.edu.zwu.repairbao.R.drawable.mark;
  * @updateAuthor $Author$
  * @updateDes ${TODO}
  */
-public class BaiDuMapUtil{
+public class BaiDuMapUtil {
 
     private BaiduMap baiduMap;
+
     private boolean isFirstLocate = true;
 
     private String[] types = {"普通地图", "卫星地图", "热力地图(已关闭)"};
 
     private MyLocationListener myListener = new MyLocationListener();
 
-    public BaiDuMapUtil(BaiduMap baiduMap){
+    public BaiDuMapUtil(BaiduMap baiduMap) {
         this.baiduMap = baiduMap;
     }
 
@@ -206,9 +207,9 @@ public class BaiDuMapUtil{
     }
 
     /**
+     * @param context 传入调用该方法的上下文
      * @author wyb
      * 选择地图的类型
-     * @param context   传入调用该方法的上下文
      */
     public void selectMapType(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

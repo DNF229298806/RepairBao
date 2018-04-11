@@ -1,4 +1,4 @@
-package cn.edu.zwu.repairbao.db;
+package cn.edu.zwu.repairbao.bean;
 
 /**
  * @author Richard_Y_Wang

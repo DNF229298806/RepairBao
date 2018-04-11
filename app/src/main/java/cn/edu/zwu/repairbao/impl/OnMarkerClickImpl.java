@@ -14,7 +14,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 
 import cn.edu.zwu.repairbao.R;
-import cn.edu.zwu.repairbao.db.MarkInfo;
+import cn.edu.zwu.repairbao.bean.MarkInfo;
 
 /**
  * @author Richard_Y_Wang

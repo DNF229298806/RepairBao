@@ -20,16 +20,16 @@ public class PermissionUtil {
 
     static List<String> permissionList = new ArrayList<>();
 
-    public static void addPermission(Context context,String[] arr_permission) {
+    public static void addPermission(Context context, String[] arr_permission) {
 
         for (int i = 0; i < arr_permission.length; i++) {
-            if (ContextCompat.checkSelfPermission(context,arr_permission[i]) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, arr_permission[i]) != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(arr_permission[i]);
             }
         }
     }
 
-    public static boolean checkPermission(Activity activity){
+    public static boolean checkPermission(Activity activity) {
         if (!permissionList.isEmpty()) {
             String[] permissions = permissionList.toArray(new String[permissionList.size()]);
             ActivityCompat.requestPermissions(activity, permissions, 1);
