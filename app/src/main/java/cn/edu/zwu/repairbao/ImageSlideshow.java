@@ -3,6 +3,7 @@ package cn.edu.zwu.repairbao;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -111,7 +112,7 @@ public class ImageSlideshow extends FrameLayout {
         imageTitleBean.setImageUrl(imageUrl);
         imageTitleBean.setTitle(title);
         imageTitleBeanList.add(imageTitleBean);
-        Log.d(TAG, "addImageTitle: "+imageTitleBean.getImageUrl());
+        Log.d(TAG, "addImageTitle: " + imageTitleBean.getImageUrl());
     }
 
     // 添加图片和标题的JavaBean
@@ -316,7 +317,6 @@ public class ImageSlideshow extends FrameLayout {
             View view = LayoutInflater.from(context).inflate(R.layout.is_image_title_layout, null);
             ImageView ivImage = (ImageView) view.findViewById(R.id.iv_image);
             TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
-
             if (i == 0) {// 将最前面一页设置成本来最后的那页
                 Glide.with(context).
                         load(imageTitleBeanList.get(count - 1).getImageUrl()).into(ivImage);
@@ -333,10 +333,6 @@ public class ImageSlideshow extends FrameLayout {
             // 将设置好的View添加到View列表中
             viewList.add(view);
         }
-        for (int i = 0; i < imageTitleBeanList.size(); i++) {
-            System.out.println(imageTitleBeanList.get(i).getImageUrl());
-            System.out.println(imageTitleBeanList.get(i).getTitle());
-        }
     }
 
     /**
@@ -345,5 +341,13 @@ public class ImageSlideshow extends FrameLayout {
     public void releaseResource() {
         handler.removeCallbacksAndMessages(null);
         context = null;
+    }
+
+    public Bitmap convertViewToBitmap(View view){
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
     }
 }

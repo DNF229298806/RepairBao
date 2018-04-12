@@ -61,7 +61,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailsActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="cn.edu.zwu.repairbao.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

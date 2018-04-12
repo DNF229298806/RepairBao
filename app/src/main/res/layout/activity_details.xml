@@ -23,9 +23,14 @@
                 <cn.edu.zwu.repairbao.ImageSlideshow
                     android:id="@+id/is_gallery"
                     android:layout_width="match_parent"
-                    android:layout_height="212dp"/>
+                    android:layout_height="212dp"
+                    android:visibility="gone"/>
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,14 +193,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="联系雇主"/>
+                    android:text="联系雇主"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/bt_rob_order_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="抢单"/>
+                    android:text="抢单"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/bt_back_order_details"

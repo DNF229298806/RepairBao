@@ -86,7 +86,7 @@ public class MainActivity2 extends AppCompatActivity {
     private OnMarkerClickImpl mOnMarkerClickImpl;
 
     private BaiDuMapUtil mBaiDuMapUtil;
-    //权限数组
+    //权限数组  精确定位权限 读取手机状态权限 写入外部储存器(SD卡)的权限
     private String[] arr_permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
@@ -200,6 +200,7 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity2.this, DetailsActivity.class);
+                intent.putExtra("type","no_rob_order");
                 //看看要不要传数据过去
                 startActivity(intent);
                 Toast.makeText(MainActivity2.this,"点击了查看详情",Toast.LENGTH_SHORT).show();
