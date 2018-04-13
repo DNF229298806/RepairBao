@@ -294,8 +294,12 @@ public class BaiDuMapUtil {
     public void initMarksData(OnMarkerClickImpl onMarkerClickImpl, OnMapClickImpl onMapClickImpl) {
         Log.d("initMarksData", "初始化开始调用 ");
         List<MarkInfo> markInfoList = new ArrayList<MarkInfo>();
-        markInfoList.add(new MarkInfo(32.079254, 118.787623, "地点", "类型", "报价", "维修时间", "报修信息", "用户姓名", "手机", null));
-        markInfoList.add(new MarkInfo(32.064355, 118.787624, "火星哈哈", "修电脑", "50万 ", "2018年4月10日-2018年4月13日", "电脑爆炸了呵呵呵", "石乐志", "17899992222", null));
+        markInfoList.add(new MarkInfo(32.079254, 118.787623, "地点", "类型",
+                "报价", "维修时间", "报修信息",
+                "用户姓名", "手机", null,"已维修"));
+        markInfoList.add(new MarkInfo(32.064355, 118.787624, "火星哈哈", "修电脑",
+                "50万 ", "2018年4月10日-2018年4月13日", "电脑爆炸了呵呵呵", "石乐志",
+                "17899992222", null,"未维修"));
         // markInfoList.add(new MarkInfo(28.7487420000, 115.8748860000, R.drawable.pic1, "华东交通大学南区", "距离5米", 888));
         // markInfoList.add(new MarkInfo(28.7534890000, 115.8767960000, R.drawable.pic1, "华东交通大学北区", "距离10米", 188));
         baiduMap.setOnMarkerClickListener(onMarkerClickImpl);

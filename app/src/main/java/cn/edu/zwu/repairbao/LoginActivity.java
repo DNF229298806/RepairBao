@@ -29,12 +29,27 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         setContentView(R.layout.activity_login);
+        //初始化控件
+        initControl();
+       //对控件进行监听
+        setListeners();
+    }
+
+    /**
+     * 初始化控件
+     */
+    public void initControl() {
         bt_Login = (Button) findViewById(R.id.bt_login);
         bt_Forget_Pwd = (Button) findViewById(R.id.bt_forget_pwd);
         bt_Register = (Button) findViewById(R.id.bt_register);
         det_Username = (DeleteEditText) findViewById(R.id.det_username);
         det_Pwd = (DeleteEditText) findViewById(R.id.det_pwd);
+    }
 
+    /**
+     * 设置按钮的监听事件
+     */
+    public void setListeners() {
         //处理登录业务逻辑
         bt_Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,4 +95,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }

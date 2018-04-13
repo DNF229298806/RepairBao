@@ -1,5 +1,6 @@
 package cn.edu.zwu.repairbao;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import cn.edu.zwu.repairbao.util.PictureUtil;
  * 要么就把判断文件这个地方也写在点击事件里面
  * 2018年4月12日14:29:52
  * 待完成的方法：抢单按钮 退单按钮 checkIntent()中的对未完成的订单和已完成的订单的逻辑处理(详情见该方法的注释)
+ * 2018年4月13日17:25:07  完成了checkIntent()中的逻辑处理
  */
 public class DetailsActivity extends AppCompatActivity {
 
@@ -166,18 +168,43 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     /**
+     * 接受来自别的activity的意图
+     *
+     * @param context
+     * @param type
+     */
+    public static void actionStart(Context context, String type) {
+        Intent intent = new Intent(context, DetailsActivity.class);
+        intent.putExtra("type", type);
+        context.startActivity(intent);
+    }
+
+    /**
      * 检查意图并调用载入对应的图片
      */
     public void checkIntent() {
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
         //查看订单 退单按钮不可见 载入图片
-        if (type.equals("no_rob_order")) {
+        if (type.equals(MainActivity2.NO_ROB_ORDER)) {
             imageSlideshow.setVisibility(View.VISIBLE);
             bt_Call_User.setVisibility(View.VISIBLE);
             bt_Rob_Order_Details.setVisibility(View.VISIBLE);
             bt_Back_Order_Details.setVisibility(View.GONE);
             loadPicture();
+        } else if (type.equals(OrderListActivity.NO_FINISH_ORDER)) {
+            //查看未完成的订单 抢单按钮不可见
+            imageSlideshow.setVisibility(View.VISIBLE);
+            bt_Call_User.setVisibility(View.VISIBLE);
+            bt_Rob_Order_Details.setVisibility(View.GONE);
+            bt_Back_Order_Details.setVisibility(View.VISIBLE);
+            loadPicture();
+        } else if (type.equals(OrderListActivity.FINISH_ORDER)) {
+            //查看已完成的订单 图片viewpager不可见 抢单和退单按钮都不可见
+            imageSlideshow.setVisibility(View.GONE);
+            bt_Call_User.setVisibility(View.VISIBLE);
+            bt_Rob_Order_Details.setVisibility(View.GONE);
+            bt_Back_Order_Details.setVisibility(View.GONE);
         }
         //else if 是未完成的订单过来的抢单不可见不载入图片  elseif是完成订单过来的 全部不可见不载入图片
     }

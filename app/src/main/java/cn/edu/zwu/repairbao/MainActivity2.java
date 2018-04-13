@@ -41,6 +41,8 @@ import cn.edu.zwu.repairbao.util.PermissionUtil;
  */
 public class MainActivity2 extends AppCompatActivity {
 
+    public static final String NO_ROB_ORDER = "no_rob_order";
+
     public LocationClient mLocationClient;
 
     private TextView tv_Position;
@@ -173,8 +175,11 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (R.id.it_nav_call == item.getItemId()) {
+                    //跳转到对应列表
+                    startActivity(new Intent(MainActivity2.this, OrderListActivity.class));
                     Toast.makeText(MainActivity2.this, "未完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_friends == item.getItemId()) {
+                    startActivity(new Intent(MainActivity2.this, OrderListActivity.class));
                     Toast.makeText(MainActivity2.this, "完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_location == item.getItemId()) {
                     Toast.makeText(MainActivity2.this, "我的信息", Toast.LENGTH_SHORT).show();
@@ -192,18 +197,19 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //进行抢单
-                Toast.makeText(MainActivity2.this,"抢到了哈哈哈",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity2.this, "抢到了哈哈哈", Toast.LENGTH_SHORT).show();
             }
         });
 
         bt_See_Details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity2.this, DetailsActivity.class);
-                intent.putExtra("type","no_rob_order");
+                //Intent intent = new Intent(MainActivity2.this, DetailsActivity.class);
+                //intent.putExtra("type","no_rob_order");
                 //看看要不要传数据过去
-                startActivity(intent);
-                Toast.makeText(MainActivity2.this,"点击了查看详情",Toast.LENGTH_SHORT).show();
+                //startActivity(intent);
+                DetailsActivity.actionStart(MainActivity2.this, NO_ROB_ORDER);
+                Toast.makeText(MainActivity2.this, "点击了查看详情", Toast.LENGTH_SHORT).show();
             }
         });
     }

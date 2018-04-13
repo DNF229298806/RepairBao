@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--实现图片自己滚动的动画 没有被选中状态的xml文件-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="oval">
     <size

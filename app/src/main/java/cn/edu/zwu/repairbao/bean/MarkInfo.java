@@ -21,12 +21,13 @@ public class MarkInfo implements Serializable {
     private String username;
     private String phone;
     private String[] imagePath = new String[5];
+    private String finish_state;
 
     public MarkInfo() {
 
     }
 
-    public MarkInfo(double latitude, double longitude, String repair_loc, String repair_type, String user_quote, String user_time, String breakdown_content, String username, String phone, String[] imagePath) {
+    public MarkInfo(double latitude, double longitude, String repair_loc, String repair_type, String user_quote, String user_time, String breakdown_content, String username, String phone, String[] imagePath,String finish_state) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.repair_loc = repair_loc;
@@ -37,6 +38,7 @@ public class MarkInfo implements Serializable {
         this.username = username;
         this.phone = phone;
         this.imagePath = imagePath;
+        this.finish_state = finish_state;
     }
 
     public double getLatitude() {
@@ -117,5 +119,13 @@ public class MarkInfo implements Serializable {
 
     public void setImagePath(String[] imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getFinish_state() {
+        return finish_state;
+    }
+
+    public void setFinish_state(String finish_state) {
+        this.finish_state = finish_state;
     }
 }

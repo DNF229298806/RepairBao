@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <!--设置圆角app:cardPreventCornerOverlap="true"
+        设置动画效果 android:stateListAnimator="@drawable/lift_on_touch"
+        设置阴影android:foreground="?android:attr/selectableItemBackground"
+        添加阴影app:cardElevation="7dp"
+        设置圆角半径app:cardCornerRadius="7dp"
+    -->
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        app:cardBackgroundColor="#FFF"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="7dp"
+        app:cardPreventCornerOverlap="true"
+        tools:targetApi="lollipop">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系人："
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_username_orderlist_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="刘瓜皮"
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系方式："
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_phone_orderlist_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="17857028132"
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="维修时间："
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_repair_user_time_orderlist_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2018年4月13日-2018年4月23日"
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="维修地点："
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_repair_loc_orderlist_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="中国北京天安门超级大的一条路阿萨德阿萨阿萨阿萨德阿萨打算"
+                    android:textColor="#000"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
