@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
+import cn.edu.zwu.repairbao.bean.MarkInfo;
 import cn.edu.zwu.repairbao.util.PictureUtil;
 
 /**
@@ -25,6 +27,7 @@ import cn.edu.zwu.repairbao.util.PictureUtil;
  * 2018年4月12日14:29:52
  * 待完成的方法：抢单按钮 退单按钮 checkIntent()中的对未完成的订单和已完成的订单的逻辑处理(详情见该方法的注释)
  * 2018年4月13日17:25:07  完成了checkIntent()中的逻辑处理
+ * 2018年4月15日16:29:31考虑在图片的名字上加上订单时间什么的唯一特点（在json中有的）
  */
 public class DetailsActivity extends AppCompatActivity {
 
@@ -37,6 +40,20 @@ public class DetailsActivity extends AppCompatActivity {
     private Button bt_Rob_Order_Details;
 
     private Button bt_Back_Order_Details;
+
+    private Button bt_Confirm_Finish_Order_Details;
+
+    private TextView Username_Details_tv;
+
+    private TextView Loc_Details_tv;
+
+    private TextView Type_Details_tv;
+
+    private TextView User_Quote_Details_tv;
+
+    private TextView User_Time_Details_tv;
+
+    private TextView Breakdown_Content_Details_tv;
 
     private String[] imageUrls = {"http://pic3.zhimg.com/b5c5fc8e9141cb785ca3b0a1d037a9a2.jpg",
             "http://pic2.zhimg.com/551fac8833ec0f9e0a142aa2031b9b09.jpg",
@@ -103,6 +120,13 @@ public class DetailsActivity extends AppCompatActivity {
         bt_Call_User = (Button) findViewById(R.id.bt_call_user);
         bt_Rob_Order_Details = (Button) findViewById(R.id.bt_rob_order_details);
         bt_Back_Order_Details = (Button) findViewById(R.id.bt_back_order_details);
+        bt_Confirm_Finish_Order_Details = (Button) findViewById(R.id.bt_confirm_finish_order_details);
+        Username_Details_tv = (TextView) findViewById(R.id.username_details_tv);
+        Loc_Details_tv = (TextView) findViewById(R.id.loc_details_tv);
+        Type_Details_tv = (TextView) findViewById(R.id.type_details_tv);
+        User_Quote_Details_tv = (TextView) findViewById(R.id.user_quote_details_tv);
+        User_Time_Details_tv = (TextView) findViewById(R.id.user_time_details_tv);
+        Breakdown_Content_Details_tv = (TextView) findViewById(R.id.breakdown_content_details_tv);
     }
 
     /**
@@ -179,32 +203,39 @@ public class DetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static void actionStart(Context context, String type, Serializable markinfo) {
+        Intent intent = new Intent(context, DetailsActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("markinfo", markinfo);
+        context.startActivity(intent);
+    }
+
     /**
-     * 检查意图并调用载入对应的图片
+     * 检查意图并调用载入对应的图片从列表中载入相关的具体信息
      */
     public void checkIntent() {
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
+        MarkInfo markInfo = (MarkInfo) intent.getSerializableExtra("markinfo");
+        //刷新界面上的文字
+        Username_Details_tv.setText(markInfo.getUsername());
+        Phone_Details_tv.setText(markInfo.getPhone());
+        Loc_Details_tv.setText(markInfo.getRepair_loc());
+        Type_Details_tv.setText(markInfo.getRepair_type());
+        User_Quote_Details_tv.setText(markInfo.getUser_quote());
+        User_Time_Details_tv.setText(markInfo.getUser_time());
+        Breakdown_Content_Details_tv.setText(markInfo.getBreakdown_content());
         //查看订单 退单按钮不可见 载入图片
         if (type.equals(MainActivity2.NO_ROB_ORDER)) {
-            imageSlideshow.setVisibility(View.VISIBLE);
-            bt_Call_User.setVisibility(View.VISIBLE);
-            bt_Rob_Order_Details.setVisibility(View.VISIBLE);
-            bt_Back_Order_Details.setVisibility(View.GONE);
+            setControlVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE, View.GONE, View.GONE);
             loadPicture();
         } else if (type.equals(OrderListActivity.NO_FINISH_ORDER)) {
             //查看未完成的订单 抢单按钮不可见
-            imageSlideshow.setVisibility(View.VISIBLE);
-            bt_Call_User.setVisibility(View.VISIBLE);
-            bt_Rob_Order_Details.setVisibility(View.GONE);
-            bt_Back_Order_Details.setVisibility(View.VISIBLE);
+            setControlVisibility(View.VISIBLE, View.VISIBLE, View.GONE, View.VISIBLE, View.VISIBLE);
             loadPicture();
         } else if (type.equals(OrderListActivity.FINISH_ORDER)) {
             //查看已完成的订单 图片viewpager不可见 抢单和退单按钮都不可见
-            imageSlideshow.setVisibility(View.GONE);
-            bt_Call_User.setVisibility(View.VISIBLE);
-            bt_Rob_Order_Details.setVisibility(View.GONE);
-            bt_Back_Order_Details.setVisibility(View.GONE);
+            setControlVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
         }
         //else if 是未完成的订单过来的抢单不可见不载入图片  elseif是完成订单过来的 全部不可见不载入图片
     }
@@ -271,4 +302,13 @@ public class DetailsActivity extends AppCompatActivity {
         return true;
     }
 
+    public void setControlVisibility(int imageSlideshowVisibility, int bt_Call_UserVisibility,
+                                     int bt_Rob_Order_DetailsVisibility, int bt_Back_Order_DetailsVisibility,
+                                     int bt_Confirm_Finish_Order_DetailsVisibility) {
+        imageSlideshow.setVisibility(imageSlideshowVisibility);
+        bt_Call_User.setVisibility(bt_Call_UserVisibility);
+        bt_Rob_Order_Details.setVisibility(bt_Rob_Order_DetailsVisibility);
+        bt_Back_Order_Details.setVisibility(bt_Back_Order_DetailsVisibility);
+        bt_Confirm_Finish_Order_Details.setVisibility(bt_Confirm_Finish_Order_DetailsVisibility);
+    }
 }

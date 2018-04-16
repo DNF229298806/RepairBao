@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv_myinfo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我的信息"
+                android:textColor="#fff"
+                android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/bt_back_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_back"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/h_back"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <ImageView
+                android:id="@+id/h_head"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/h_back"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/user_line"
+                    android:layout_width="1dp"
+                    android:layout_height="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/white"/>
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/user_line"
+                    android:text="张三"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"/>
+
+                <TextView
+                    android:id="@+id/user_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/user_line"
+                    android:text="182****5882"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_star"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="-100星"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="我的星级"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_receive_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_order_number"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="1024"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="接单数"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_end_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_order_end_number"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="0"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="结单数"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_back_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_order_back_number"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="1024"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="退单数"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_specialty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_specialty"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="滚筒洗衣机"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="特长专修"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_introduce"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="个人介绍"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_phone"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="17878282222"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="修改绑定手机"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_password"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="修改密码"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_idcard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_idcrad"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remark="331023199709095812"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="身份证"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+    </LinearLayout>
+</ScrollView>
+

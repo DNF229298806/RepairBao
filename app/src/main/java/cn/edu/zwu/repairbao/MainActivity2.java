@@ -1,7 +1,6 @@
 package cn.edu.zwu.repairbao;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -176,12 +175,13 @@ public class MainActivity2 extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (R.id.it_nav_call == item.getItemId()) {
                     //跳转到对应列表
-                    startActivity(new Intent(MainActivity2.this, OrderListActivity.class));
+                    OrderListActivity.actionStart(MainActivity2.this, OrderListActivity.NO_FINISH_ORDER);
                     Toast.makeText(MainActivity2.this, "未完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_friends == item.getItemId()) {
-                    startActivity(new Intent(MainActivity2.this, OrderListActivity.class));
+                    OrderListActivity.actionStart(MainActivity2.this, OrderListActivity.FINISH_ORDER);
                     Toast.makeText(MainActivity2.this, "完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_location == item.getItemId()) {
+                    MyInfoActivity.actionStart(MainActivity2.this);
                     Toast.makeText(MainActivity2.this, "我的信息", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_mail == item.getItemId()) {
                     Toast.makeText(MainActivity2.this, "滚出去", Toast.LENGTH_SHORT).show();
@@ -208,7 +208,7 @@ public class MainActivity2 extends AppCompatActivity {
                 //intent.putExtra("type","no_rob_order");
                 //看看要不要传数据过去
                 //startActivity(intent);
-                DetailsActivity.actionStart(MainActivity2.this, NO_ROB_ORDER);
+                DetailsActivity.actionStart(MainActivity2.this, NO_ROB_ORDER, mOnMarkerClickImpl.getMarkInfo());
                 Toast.makeText(MainActivity2.this, "点击了查看详情", Toast.LENGTH_SHORT).show();
             }
         });

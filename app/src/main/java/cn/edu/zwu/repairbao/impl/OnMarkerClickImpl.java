@@ -27,16 +27,22 @@ public class OnMarkerClickImpl implements BaiduMap.OnMarkerClickListener {
 
     private Activity mActivity;
     private BaiduMap mBaiduMap;
+    private MarkInfo markInfo;
 
     public OnMarkerClickImpl(Activity activity, BaiduMap baiduMap) {
         mActivity = activity;
         mBaiduMap = baiduMap;
     }
 
+    public MarkInfo getMarkInfo() {
+        return markInfo;
+    }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
         Bundle bundle = marker.getExtraInfo();
         MarkInfo MyMarker = (MarkInfo) bundle.getSerializable("mark");
+        markInfo = MyMarker;
         TextView tv_Repair_Loc_Content = (TextView) mActivity.findViewById(R.id.tv_repair_loc_content);
         TextView tv_Repair_Type = (TextView) mActivity.findViewById(R.id.tv_repair_type_content);
         TextView tv_User_Quote_Content = (TextView) mActivity.findViewById(R.id.tv_user_quote_content);

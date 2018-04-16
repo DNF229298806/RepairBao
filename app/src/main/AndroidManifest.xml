@@ -83,6 +83,8 @@
 
         <activity android:name=".OrderListActivity">
         </activity>
+        <activity android:name=".MyInfoActivity">
+        </activity>
     </application>
 
 </manifest>

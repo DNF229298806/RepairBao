@@ -11,17 +11,17 @@ package cn.edu.zwu.repairbao.bean;
 import java.io.Serializable;
 
 public class MarkInfo implements Serializable {
-    private double latitude;
-    private double longitude;
-    private String repair_loc;
-    private String repair_type;
-    private String user_quote;
-    private String user_time;
-    private String breakdown_content;
-    private String username;
-    private String phone;
-    private String[] imagePath = new String[5];
-    private String finish_state;
+    private double latitude;       //用户的纬度
+    private double longitude;      //用户的经度
+    private String repair_loc;     //用户的维修地点
+    private String repair_type;    //维修类型 如 家电还是电脑
+    private String user_quote;     //用户报价
+    private String user_time;      //用户期望的维修时间
+    private String breakdown_content;   //问题描述
+    private String username;            //用户的姓名
+    private String phone;               //用户的手机号码
+    private String[] imagePath = new String[5];     //用户上传的图片的服务器路径
+    private String finish_state;        //该订单是否已经完成
 
     public MarkInfo() {
 
