@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
 import cn.edu.zwu.repairbao.adapter.MarkInfoAdapter;
 import cn.edu.zwu.repairbao.bean.MarkInfo;
 
@@ -24,7 +25,7 @@ import cn.edu.zwu.repairbao.bean.MarkInfo;
  * 实现切换功能
  * 2018年4月16日08:33:56
  */
-public class OrderListActivity extends AppCompatActivity {
+public class OrderListActivity extends AppCompatActivity implements ActivityInitControl{
 
     public static final String NO_FINISH_ORDER = "no_finish_order";
     public static final String FINISH_ORDER = "finish_order";

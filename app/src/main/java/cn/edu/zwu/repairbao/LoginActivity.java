@@ -11,7 +11,9 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginActivity extends AppCompatActivity {
+import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
+
+public class LoginActivity extends AppCompatActivity implements ActivityInitControl{
 
     private Button bt_Login;
     private Button bt_Forget_Pwd;

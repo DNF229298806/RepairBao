@@ -25,6 +25,7 @@ import com.baidu.mapapi.map.MapView;
 
 import java.util.List;
 
+import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
 import cn.edu.zwu.repairbao.bean.MarkInfo;
 import cn.edu.zwu.repairbao.impl.OnMapClickImpl;
 import cn.edu.zwu.repairbao.impl.OnMarkerClickImpl;
@@ -38,7 +39,7 @@ import cn.edu.zwu.repairbao.util.PermissionUtil;
  * @updateAuthor $Author$
  * @updateDes ${TODO}
  */
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity implements ActivityInitControl{
 
     public static final String NO_ROB_ORDER = "no_rob_order";
 
@@ -111,7 +112,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * 初始化控件
      */
-    private void initControl() {
+    public void initControl() {
         tv_Position = (TextView) findViewById(R.id.tv_position);
         bdMapView = (MapView) findViewById(R.id.bmapView);
         road_condition = (ImageView) findViewById(R.id.road_condition);
@@ -136,7 +137,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * 注册监听
      */
-    private void setListeners() {
+    public void setListeners() {
         road_condition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

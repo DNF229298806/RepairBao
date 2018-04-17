@@ -14,14 +14,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary">
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_myinfo_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -30,7 +29,7 @@
                 android:textSize="20sp"/>
 
             <Button
-                android:id="@+id/bt_back_button"
+                android:id="@+id/bt_myinfo_back"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentLeft="true"
@@ -58,27 +57,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/h_back"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="25dp"
                 android:orientation="horizontal">
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/user_line"
                     android:layout_width="1dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
-                    android:background="@color/white"/>
+                    android:background="@color/white"/>-->
 
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/user_line"
+                    android:layout_centerHorizontal="true"
                     android:text="张三"
                     android:textColor="@color/white"
                     android:textSize="17sp"/>
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/user_val"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +85,7 @@
                     android:layout_toRightOf="@id/user_line"
                     android:text="182****5882"
                     android:textColor="@color/white"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp"/>-->
             </RelativeLayout>
         </RelativeLayout>
 
@@ -194,6 +193,23 @@
             clause:cv_showOverline="true"
             clause:cv_showUnderline="true"
             clause:cv_title="个人介绍"
+            clause:cv_titleTextColor="@color/clauses_view_default_title_color"
+            />
+
+        <com.lixiaohui8636.widget.ClauseView
+            xmlns:clause="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_my_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            clause:cv_drawLeft="@drawable/ic_head_choose"
+            clause:cv_drawLeftMargin="10dp"
+            clause:cv_drawRight="@drawable/right_dark"
+            clause:cv_drawRightMargin="10dp"
+            clause:cv_remarkTextColor="#656668"
+            clause:cv_showOverline="true"
+            clause:cv_showUnderline="true"
+            clause:cv_title="修改头像"
             clause:cv_titleTextColor="@color/clauses_view_default_title_color"
             />
 
