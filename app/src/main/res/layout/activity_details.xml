@@ -31,7 +31,7 @@
                     android:textSize="20sp"/>
 
                 <Button
-                    android:id="@+id/bt_back_button"
+                    android:id="@+id/bt_back_details"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentLeft="true"

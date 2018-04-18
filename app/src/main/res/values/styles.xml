@@ -11,4 +11,8 @@
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">#fd5d93</item>
     </style>
+
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">#000</item>
+    </style>
 </resources>

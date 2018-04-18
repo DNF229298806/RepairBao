@@ -30,11 +30,13 @@ import cn.edu.zwu.repairbao.util.PictureUtil;
  * 2018年4月13日17:25:07  完成了checkIntent()中的逻辑处理
  * 2018年4月15日16:29:31考虑在图片的名字上加上订单时间什么的唯一特点（在json中有的）
  */
-public class DetailsActivity extends AppCompatActivity implements ActivityInitControl{
+public class DetailsActivity extends AppCompatActivity implements ActivityInitControl {
 
     private ImageSlideshow imageSlideshow;
 
     private TextView Phone_Details_tv;
+
+    private Button bt_Back_Details;
 
     private Button bt_Call_User;
 
@@ -119,6 +121,7 @@ public class DetailsActivity extends AppCompatActivity implements ActivityInitCo
     public void initControl() {
         imageSlideshow = (ImageSlideshow) findViewById(R.id.is_gallery);
         Phone_Details_tv = (TextView) findViewById(R.id.phone_details_tv);
+        bt_Back_Details = (Button) findViewById(R.id.bt_back_details);
         bt_Call_User = (Button) findViewById(R.id.bt_call_user);
         bt_Rob_Order_Details = (Button) findViewById(R.id.bt_rob_order_details);
         bt_Back_Order_Details = (Button) findViewById(R.id.bt_back_order_details);
@@ -136,6 +139,13 @@ public class DetailsActivity extends AppCompatActivity implements ActivityInitCo
      * 注册监听器
      */
     public void setListeners() {
+        //回退按钮
+        bt_Back_Details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         //直接调用系统的拨号界面
         bt_Call_User.setOnClickListener(new View.OnClickListener() {
             @Override

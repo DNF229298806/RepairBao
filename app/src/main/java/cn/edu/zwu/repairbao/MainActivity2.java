@@ -39,7 +39,7 @@ import cn.edu.zwu.repairbao.util.PermissionUtil;
  * @updateAuthor $Author$
  * @updateDes ${TODO}
  */
-public class MainActivity2 extends AppCompatActivity implements ActivityInitControl{
+public class MainActivity2 extends AppCompatActivity implements ActivityInitControl {
 
     public static final String NO_ROB_ORDER = "no_rob_order";
 
@@ -88,8 +88,9 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
     private OnMarkerClickImpl mOnMarkerClickImpl;
 
     private BaiDuMapUtil mBaiDuMapUtil;
-    //权限数组  精确定位权限 读取手机状态权限 写入外部储存器(SD卡)的权限
-    private String[] arr_permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    //权限数组  精确定位权限 读取手机状态权限 写入外部储存器(SD卡)的权限 照相机权限
+    private String[] arr_permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +183,7 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
                     OrderListActivity.actionStart(MainActivity2.this, OrderListActivity.FINISH_ORDER);
                     Toast.makeText(MainActivity2.this, "完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_location == item.getItemId()) {
-                    MyInfoActivity.actionStart(MainActivity2.this);
+                    MyInfoActivity.actionStart(MainActivity2.this, null, null, null);
                     Toast.makeText(MainActivity2.this, "我的信息", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_mail == item.getItemId()) {
                     Toast.makeText(MainActivity2.this, "滚出去", Toast.LENGTH_SHORT).show();
@@ -205,10 +206,6 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         bt_See_Details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainActivity2.this, DetailsActivity.class);
-                //intent.putExtra("type","no_rob_order");
-                //看看要不要传数据过去
-                //startActivity(intent);
                 DetailsActivity.actionStart(MainActivity2.this, NO_ROB_ORDER, mOnMarkerClickImpl.getMarkInfo());
                 Toast.makeText(MainActivity2.this, "点击了查看详情", Toast.LENGTH_SHORT).show();
             }

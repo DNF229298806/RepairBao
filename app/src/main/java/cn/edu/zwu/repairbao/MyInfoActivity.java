@@ -2,6 +2,7 @@ package cn.edu.zwu.repairbao;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,13 +13,23 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.lixiaohui8636.widget.ClauseView;
+import com.wyp.avatarstudio.AvatarStudio;
+
+import java.io.File;
 
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
+/**
+ * 使用glide-transformations 和 me.thewyp:avatar 框架实现背景图和圆形头像
+ * 并实现上传头像，未实现的是上传照片文件到服务器的功能
+ */
 public class MyInfoActivity extends AppCompatActivity implements ActivityInitControl, View.OnClickListener {
 
+    public static final String MODIFY_SPECIALTY = "modify_specialty";
+    public static final String MODIFY_INTRODUCE = "modify_introduce";
+    public static final String MODIFY_PWD = "modify_pwd";
     private Button bt_myinfo_back;              //返回按钮
     private ImageView h_back;                   //背景图（毛玻璃）
     private ImageView h_head;                   //圆形头像
@@ -53,10 +64,16 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
     }
 
 
-    public static void actionStart(Context context) {
+    public static void actionStart(Context context, String specialty, String introduce, String pwd) {
         Intent intent = new Intent(context, MyInfoActivity.class);
+        intent.putExtra("specialty", specialty);
+        intent.putExtra("introduce", introduce);
+        intent.putExtra("pwd", pwd);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);        //了解一下flag
         context.startActivity(intent);
     }
+
+    //对intent携带的值进行判断 如果是null 应该对null值进行处理 嗯就是这样
 
     @Override
     public void initControl() {
@@ -77,11 +94,11 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
 
     @Override
     public void setListeners() {
-        ClauseView[] arr_CV = {cv_my_grade, cv_my_receive_number, cv_my_end_number,
+        View[] arr_Control = {cv_my_grade, cv_my_receive_number, cv_my_end_number,
                 cv_my_back_number, cv_my_specialty, cv_my_introduce, cv_my_head,
-                cv_my_phone, cv_my_password, cv_my_idcard};
-        for (int i = 0; i < arr_CV.length; i++) {
-            arr_CV[i].setOnClickListener(this);
+                cv_my_phone, cv_my_password, cv_my_idcard, bt_myinfo_back};
+        for (int i = 0; i < arr_Control.length; i++) {
+            arr_Control[i].setOnClickListener(this);
         }
     }
 
@@ -106,16 +123,43 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
 
             case R.id.cv_my_specialty:
                 Toast.makeText(MyInfoActivity.this, "特长专修", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MyInfoActivity.this, MyInfoItemActivity.class);
-                startActivity(intent);
+                MyInfoItemActivity.actionStart(MyInfoActivity.this, MyInfoActivity.MODIFY_SPECIALTY);
                 break;
 
             case R.id.cv_my_introduce:
                 Toast.makeText(MyInfoActivity.this, "个人介绍", Toast.LENGTH_SHORT).show();
+                MyInfoItemActivity.actionStart(MyInfoActivity.this, MyInfoActivity.MODIFY_INTRODUCE);
                 break;
 
             case R.id.cv_my_head:
                 Toast.makeText(MyInfoActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
+                new AvatarStudio.Builder(MyInfoActivity.this)
+                        .needCrop(true)//是否裁剪，默认裁剪
+                        .setTextColor(Color.BLACK)
+                        .dimEnabled(true)//背景是否dim 默认true
+                        .setAspect(1, 1)//裁剪比例 默认1：1
+                        .setOutput(200, 200)//裁剪大小 默认200*200
+                        .setText("打开相机", "从相册中选取", "取消")
+                        .show(new AvatarStudio.CallBack() {
+                            @Override
+                            public void callback(String uri) {
+
+                                //得到这个file对象  以后要上传到服务器的
+                                File file = new File(uri);
+
+                                //uri为图片路径
+                                Context context = MyInfoActivity.this;
+                                //毛玻璃效果
+                                Glide.with(context).load(new File(uri))
+                                        .bitmapTransform(new BlurTransformation(context, 25), new CenterCrop(context))
+                                        .into(h_back);
+
+                                //圆角头像 到时候还要加入默认的圆角头像的 比如丑丑的未上传头像
+                                Glide.with(context).load(new File(uri))
+                                        .bitmapTransform(new CropCircleTransformation(context))
+                                        .into(h_head);
+                            }
+                        });
                 break;
 
             case R.id.cv_my_phone:
@@ -124,6 +168,7 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
 
             case R.id.cv_my_password:
                 Toast.makeText(MyInfoActivity.this, "修改密码", Toast.LENGTH_SHORT).show();
+                MyInfoItemActivity.actionStart(MyInfoActivity.this, MyInfoActivity.MODIFY_PWD);
                 break;
 
             case R.id.cv_my_idcard:
@@ -136,6 +181,19 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
 
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 4) {
+            String type = data.getStringExtra("type");
+            String data_data = data.getStringExtra("data");
+            if (type.equals(MODIFY_SPECIALTY)) {
+                cv_my_specialty.setRemarkTextSize(10.0f);
+                cv_my_specialty.setRemark(data_data);
+            }
         }
     }
 }
