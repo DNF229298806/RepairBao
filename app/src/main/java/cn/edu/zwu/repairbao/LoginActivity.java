@@ -1,5 +1,6 @@
 package cn.edu.zwu.repairbao;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,18 +9,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
+import cn.edu.zwu.repairbao.gson.Engineer;
+import cn.edu.zwu.repairbao.util.HttpUtil;
+import cn.edu.zwu.repairbao.util.JsonUtil;
+import cn.edu.zwu.repairbao.util.LoginUtil;
+import me.leefeng.promptlibrary.PromptDialog;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity implements ActivityInitControl{
+/**
+ * 2018年4月19日15:41:35
+ * 登录功能完成 同时把engineer这个类传递到了Main2Activity中 记得要在Main中进行接收写getIntent
+ * 再考虑要不要做数据的持久化 储存 比如数据库/xml保存
+ * 明天过来写 写什么呢 写个人中心的刷新 毕竟得到了工程师的数据 总要刷新吧
+ */
+public class LoginActivity extends AppCompatActivity implements ActivityInitControl {
 
+    public static final String ADDRESS = "http://www.wanlixueyuan.com/engineer/findInfoByPhoneNumber.action";
     private Button bt_Login;
     private Button bt_Forget_Pwd;
     private Button bt_Register;
     private DeleteEditText det_Username;
     private DeleteEditText det_Pwd;
+    private PromptDialog promptDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +51,11 @@ public class LoginActivity extends AppCompatActivity implements ActivityInitCont
         setContentView(R.layout.activity_login);
         //初始化控件
         initControl();
-       //对控件进行监听
+        //对控件进行监听
         setListeners();
+        promptDialog = new PromptDialog(LoginActivity.this);
+        det_Username.setText("15604096714");
+        det_Pwd.setText("123");
     }
 
     /**
@@ -75,7 +96,82 @@ public class LoginActivity extends AppCompatActivity implements ActivityInitCont
                     //设置焦点到用户名这一格上
                     det_Username.setFocusable(true);
                     return;
-                }else{
+                } else {
+                    promptDialog.showLoading("正在登录");
+                    String phone = det_Username.getText().toString();
+                    System.out.println("phone" + phone);
+                    final String pwd = det_Pwd.getText().toString();
+                    System.out.println("pwd" + pwd);
+                    //开启子线程进行网络请求
+                    HttpUtil.sendOkHttpPostRequest(ADDRESS, LoginUtil.getResponseBody(phone), new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    promptDialog.dismiss();
+                                    promptDialog.showError("登录失败");
+                                    Toast.makeText(LoginActivity.this, "请检查你的网络连接", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            //连接失败 请连接网络
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final Engineer engineer = JsonUtil.handleEngineerResponse(response.body().string());
+                            /*System.out.println("success:" + engineer.success);
+                            System.out.println("message:" + engineer.message);
+                            System.out.println("data:" + engineer.engineerData);
+                            System.out.println("id:" + engineer.engineerData.id);
+                            System.out.println("phoneNumber:" + engineer.engineerData.phoneNumber);
+                            System.out.println("password" + engineer.engineerData.password);
+                            System.out.println("name:" + engineer.engineerData.name);
+                            System.out.println("wechat:" + engineer.engineerData.wechat);
+                            System.out.println("specialty:" + engineer.engineerData.specialty);
+                            System.out.println("introduce:" + engineer.engineerData.introduce);
+                            System.out.println("idCard:" + engineer.engineerData.idCard);
+                            System.out.println("grade:" + engineer.engineerData.grade);
+                            System.out.println("receiveNumber:" + engineer.engineerData.receiveNumber);
+                            System.out.println("endNumber:" + engineer.engineerData.endNumber);
+                            System.out.println("backNumber:" + engineer.engineerData.backNumber);
+                            System.out.println("status:" + engineer.engineerData.status);*/
+                            if (engineer.success.equals("false")) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        promptDialog.dismiss();
+                                        promptDialog.showError("登录失败");
+                                        Toast.makeText(LoginActivity.this, "该号码有误或该号码还未注册", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else if (engineer.success.equals("true")) {
+                                if (!pwd.equals(engineer.engineerData.password)) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            promptDialog.dismiss();
+                                            promptDialog.showError("登录失败");
+                                            Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            promptDialog.dismiss();
+                                            promptDialog.showSuccess("登陆成功");
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                                            intent.putExtra("engineer", engineer);
+                                            startActivity(intent);
+                                            LoginActivity.this.finish();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
                     //发送网络请求 如果返回正确 发送开启发送意图调用MapActivity 如果返回错误 那么显示用户名或密码错误
                 }
             }
@@ -85,7 +181,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityInitCont
         bt_Forget_Pwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this,"忘记密码了",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "忘记密码了", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityInitCont
         bt_Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this,"新用户注册",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "新用户注册", Toast.LENGTH_SHORT).show();
             }
         });
     }

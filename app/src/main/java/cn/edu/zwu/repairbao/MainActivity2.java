@@ -1,6 +1,7 @@
 package cn.edu.zwu.repairbao;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -88,6 +90,7 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
     private OnMarkerClickImpl mOnMarkerClickImpl;
 
     private BaiDuMapUtil mBaiDuMapUtil;
+    private long exitTime = 0;
     //权限数组  精确定位权限 读取手机状态权限 写入外部储存器(SD卡)的权限 照相机权限
     private String[] arr_permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
@@ -269,4 +272,14 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         bdMapView.onDestroy();
         baiduMap.setMyLocationEnabled(false);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Intent home=new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        startActivity(home);
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }
