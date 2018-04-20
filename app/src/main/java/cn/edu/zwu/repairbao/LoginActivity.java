@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityInitCont
         //对控件进行监听
         setListeners();
         promptDialog = new PromptDialog(LoginActivity.this);
+        //测试用例
         det_Username.setText("15604096714");
         det_Pwd.setText("123");
     }
@@ -120,54 +121,70 @@ public class LoginActivity extends AppCompatActivity implements ActivityInitCont
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            final Engineer engineer = JsonUtil.handleEngineerResponse(response.body().string());
-                            /*System.out.println("success:" + engineer.success);
-                            System.out.println("message:" + engineer.message);
-                            System.out.println("data:" + engineer.engineerData);
-                            System.out.println("id:" + engineer.engineerData.id);
-                            System.out.println("phoneNumber:" + engineer.engineerData.phoneNumber);
-                            System.out.println("password" + engineer.engineerData.password);
-                            System.out.println("name:" + engineer.engineerData.name);
-                            System.out.println("wechat:" + engineer.engineerData.wechat);
-                            System.out.println("specialty:" + engineer.engineerData.specialty);
-                            System.out.println("introduce:" + engineer.engineerData.introduce);
-                            System.out.println("idCard:" + engineer.engineerData.idCard);
-                            System.out.println("grade:" + engineer.engineerData.grade);
-                            System.out.println("receiveNumber:" + engineer.engineerData.receiveNumber);
-                            System.out.println("endNumber:" + engineer.engineerData.endNumber);
-                            System.out.println("backNumber:" + engineer.engineerData.backNumber);
-                            System.out.println("status:" + engineer.engineerData.status);*/
-                            if (engineer.success.equals("false")) {
+                            //String json = response.body().string();
+                            final String json = "{\n" +
+                                    "    \"success\": true,\n" +
+                                    "    \"message\": null,\n" +
+                                    "    \"data\": {\n" +
+                                    "        \"id\": 1011,\n" +
+                                    "        \"phoneNumber\": \"15604096714\",\n" +
+                                    "        \"password\": \"123\",\n" +
+                                    "        \"name\": \"容楠\",\n" +
+                                    "        \"wechat\": \"15604096714\",\n" +
+                                    "        \"specialty\": 6,\n" +
+                                    "        \"introduce\": \"手机维修\",\n" +
+                                    "        \"idCard\": \"110428199102162786\",\n" +
+                                    "        \"grade\": 1.5,\n" +
+                                    "        \"receiveNumber\": 842,\n" +
+                                    "        \"endNumber\": 212,\n" +
+                                    "        \"backNumber\": 630,\n" +
+                                    "        \"status\": 9\n" +
+                                    "    }\n" +
+                                    "}";
+                            System.out.println(json);
+                            if (json.contains("html")) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Toast.makeText(LoginActivity.this, "服务器出错了，请等待工程师修复", Toast.LENGTH_SHORT).show();
                                         promptDialog.dismiss();
-                                        promptDialog.showError("登录失败");
-                                        Toast.makeText(LoginActivity.this, "该号码有误或该号码还未注册", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                            } else if (engineer.success.equals("true")) {
-                                if (!pwd.equals(engineer.engineerData.password)) {
+                            } else {
+                                final Engineer engineer = JsonUtil.handleEngineerResponse(json);
+                                if (engineer.success.equals("false")) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             promptDialog.dismiss();
                                             promptDialog.showError("登录失败");
-                                            Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, "该号码有误或该号码还未注册", Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                                } else {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            promptDialog.dismiss();
-                                            promptDialog.showSuccess("登陆成功");
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-                                            intent.putExtra("engineer", engineer);
-                                            startActivity(intent);
-                                            LoginActivity.this.finish();
-                                        }
-                                    });
+                                } else if (engineer.success.equals("true")) {
+                                    if (!pwd.equals(engineer.engineerData.password)) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                promptDialog.dismiss();
+                                                promptDialog.showError("登录失败");
+                                                Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                promptDialog.dismiss();
+                                                promptDialog.showSuccess("登陆成功");
+                                                //把这次请求的json串保存到本地
+                                                JsonUtil.saveJson(LoginActivity.this,json);
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                                                startActivity(intent);
+                                                LoginActivity.this.finish();
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }

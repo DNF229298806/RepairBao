@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -18,12 +20,17 @@ import com.wyp.avatarstudio.AvatarStudio;
 import java.io.File;
 
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
+import cn.edu.zwu.repairbao.gson.Engineer;
+import cn.edu.zwu.repairbao.util.JsonUtil;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * 使用glide-transformations 和 me.thewyp:avatar 框架实现背景图和圆形头像
  * 并实现上传头像，未实现的是上传照片文件到服务器的功能
+ * 实现了读取json进行界面初始化的功能 但是没有完成的是 如果更新数据以后是不是要重新请求json串啊 而且是不是要写个if判断啊更新以后就
+ * 不用去得到engineer了啊？
+ * 2018年4月20日11:10:58 已经完成本地化储存 考虑加密问题
  */
 public class MyInfoActivity extends AppCompatActivity implements ActivityInitControl, View.OnClickListener {
 
@@ -33,6 +40,7 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
     private Button bt_myinfo_back;              //返回按钮
     private ImageView h_back;                   //背景图（毛玻璃）
     private ImageView h_head;                   //圆形头像
+    private TextView tv_user_name;              //圆形头像下的用户名
     private ClauseView cv_my_grade;             //我的星级
     private ClauseView cv_my_receive_number;    //接单数
     private ClauseView cv_my_end_number;        //结单数
@@ -61,6 +69,27 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
         Glide.with(this).load(R.drawable.default_head)
                 .bitmapTransform(new CropCircleTransformation(this))
                 .into(h_head);
+
+        //得到MainActivity2传过来的engineer 开始初始化界面把json中的信息填入控件
+        //Engineer engineer = (Engineer) getIntent().getSerializableExtra("engineer");
+        String json = JsonUtil.getJson(MyInfoActivity.this);
+        if (json != null) {
+            System.out.println("通过SharedPreferences读取出来的json：" + json);
+        }
+        Engineer engineer = JsonUtil.handleEngineerResponse(json);
+        Log.d("MyInfoActivity", "engineer " + engineer);
+        tv_user_name.setText(engineer.engineerData.name);
+        cv_my_grade.setRemark(engineer.engineerData.grade);
+        cv_my_receive_number.setRemark(engineer.engineerData.receiveNumber);
+        cv_my_end_number.setRemark(engineer.engineerData.endNumber);
+        cv_my_back_number.setRemark(engineer.engineerData.backNumber);
+        cv_my_specialty.setRemark(engineer.engineerData.introduce);
+        //个人介绍？json不存在的 修改头像的图片路径？json 不存在的
+        //cv_my_introduce.setRemark(engineer.engineerData);
+        //cv_my_head.setRemark(engineer.engineerData);
+        cv_my_phone.setRemark(engineer.engineerData.phoneNumber);
+        //cv_my_password.setRemark(engineer.engineerData);
+        cv_my_idcard.setRemark(engineer.engineerData.idCard);
     }
 
 
@@ -80,6 +109,7 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
         bt_myinfo_back = (Button) findViewById(R.id.bt_myinfo_back);
         h_back = (ImageView) findViewById(R.id.h_back);
         h_head = (ImageView) findViewById(R.id.h_head);
+        tv_user_name = (TextView) findViewById(R.id.user_name);
         cv_my_grade = (ClauseView) findViewById(R.id.cv_my_grade);
         cv_my_receive_number = (ClauseView) findViewById(R.id.cv_my_receive_number);
         cv_my_end_number = (ClauseView) findViewById(R.id.cv_my_end_number);
@@ -150,7 +180,7 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
                                 //uri为图片路径
                                 Context context = MyInfoActivity.this;
                                 //毛玻璃效果
-                                Glide.with(context).load(new File(uri))
+                                Glide.with(context).load(file)
                                         .bitmapTransform(new BlurTransformation(context, 25), new CenterCrop(context))
                                         .into(h_back);
 
@@ -191,7 +221,6 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
             String type = data.getStringExtra("type");
             String data_data = data.getStringExtra("data");
             if (type.equals(MODIFY_SPECIALTY)) {
-                cv_my_specialty.setRemarkTextSize(10.0f);
                 cv_my_specialty.setRemark(data_data);
             }
         }

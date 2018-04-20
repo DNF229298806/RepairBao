@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
 import cn.edu.zwu.repairbao.bean.MarkInfo;
+import cn.edu.zwu.repairbao.gson.Engineer;
 import cn.edu.zwu.repairbao.impl.OnMapClickImpl;
 import cn.edu.zwu.repairbao.impl.OnMarkerClickImpl;
 import cn.edu.zwu.repairbao.util.BaiDuMapUtil;
@@ -178,6 +180,9 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         nv_nav_View.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //得到LoginActivity传过来的engineer
+                Engineer engineer = (Engineer) getIntent().getSerializableExtra("engineer");
+                Log.d("MainActivity2", "engineer: "+engineer);
                 if (R.id.it_nav_call == item.getItemId()) {
                     //跳转到对应列表
                     OrderListActivity.actionStart(MainActivity2.this, OrderListActivity.NO_FINISH_ORDER);
@@ -186,7 +191,9 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
                     OrderListActivity.actionStart(MainActivity2.this, OrderListActivity.FINISH_ORDER);
                     Toast.makeText(MainActivity2.this, "完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_location == item.getItemId()) {
-                    MyInfoActivity.actionStart(MainActivity2.this, null, null, null);
+                    //MyInfoActivity.actionStart(MainActivity2.this, null, null, null);
+                    Intent intent = new Intent(MainActivity2.this,MyInfoActivity.class);
+                    startActivity(intent);
                     Toast.makeText(MainActivity2.this, "我的信息", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_mail == item.getItemId()) {
                     Toast.makeText(MainActivity2.this, "滚出去", Toast.LENGTH_SHORT).show();
@@ -275,7 +282,7 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Intent home=new Intent(Intent.ACTION_MAIN);
+        Intent home = new Intent(Intent.ACTION_MAIN);
         home.addCategory(Intent.CATEGORY_HOME);
         startActivity(home);
         return super.onKeyDown(keyCode, event);

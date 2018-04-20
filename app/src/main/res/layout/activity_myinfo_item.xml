@@ -66,25 +66,25 @@
                     android:id="@+id/rb_electric_appliance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="家庭电器类（电视，冰箱，洗衣机）"/>
+                    android:text="家政服务"/>
 
                 <RadioButton
                     android:id="@+id/rb_electric_kitchen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="厨房电器类（电饭煲，油烟机，电水壶）"/>
+                    android:text="电脑维修"/>
 
                 <RadioButton
                     android:id="@+id/rb_electronics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="数码产品（电脑，手机，移动硬盘，照相机）"/>
+                    android:text="手机维修"/>
 
                 <RadioButton
                     android:id="@+id/rb_others"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="其他"/>
+                    android:text="家电维修"/>
             </RadioGroup>
         </LinearLayout>
 
