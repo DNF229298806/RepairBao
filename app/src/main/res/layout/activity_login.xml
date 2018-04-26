@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/user_account"/>
 
-            <cn.edu.zwu.repairbao.DeleteEditText
+            <cn.edu.zwu.repairbao.MyUI.DeleteEditText
                 android:id="@+id/det_username"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/user_password"/>
 
-            <cn.edu.zwu.repairbao.DeleteEditText
+            <cn.edu.zwu.repairbao.MyUI.DeleteEditText
                 android:id="@+id/det_pwd"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"

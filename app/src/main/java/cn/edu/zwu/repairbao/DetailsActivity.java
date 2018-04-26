@@ -18,9 +18,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
+import cn.edu.zwu.repairbao.Bean.MarkInfo;
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
-import cn.edu.zwu.repairbao.bean.MarkInfo;
-import cn.edu.zwu.repairbao.util.PictureUtil;
+import cn.edu.zwu.repairbao.MyUI.ImageSlideshow;
+import cn.edu.zwu.repairbao.Util.PictureUtil;
 
 /**
  * 有一个bug就是当用户手动删除图片以后 无法点击查看图片 想要重新刷新图片 只能重新create这个Activity

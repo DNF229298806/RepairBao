@@ -25,16 +25,18 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.navisdk.adapter.BaiduNaviManager;
 
 import java.util.List;
 
+import cn.edu.zwu.repairbao.Bean.MarkInfo;
+import cn.edu.zwu.repairbao.Gson.Engineer;
+import cn.edu.zwu.repairbao.Impl.OnMapClickImpl;
+import cn.edu.zwu.repairbao.Impl.OnMarkerClickImpl;
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
-import cn.edu.zwu.repairbao.bean.MarkInfo;
-import cn.edu.zwu.repairbao.gson.Engineer;
-import cn.edu.zwu.repairbao.impl.OnMapClickImpl;
-import cn.edu.zwu.repairbao.impl.OnMarkerClickImpl;
-import cn.edu.zwu.repairbao.util.BaiDuMapUtil;
-import cn.edu.zwu.repairbao.util.PermissionUtil;
+import cn.edu.zwu.repairbao.Receiver.NetworkChangeReceiver;
+import cn.edu.zwu.repairbao.Util.BaiDuMapUtil;
+import cn.edu.zwu.repairbao.Util.PermissionUtil;
 
 /**
  * @author Richard_Y_Wang
@@ -92,15 +94,21 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
     private OnMarkerClickImpl mOnMarkerClickImpl;
 
     private BaiDuMapUtil mBaiDuMapUtil;
+
+    private ImageButton start_go;
     private long exitTime = 0;
     //权限数组  精确定位权限 读取手机状态权限 写入外部储存器(SD卡)的权限 照相机权限
     private String[] arr_permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //创建一个定位客户端对象
         mLocationClient = new LocationClient(getApplicationContext());
+        //注册广播
+        NetworkChangeReceiver.addNetworkChangeReceiver();
         //初始化一定要在setContentView之前调用 不然会出错
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
@@ -132,11 +140,12 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         nv_nav_View = (NavigationView) findViewById(R.id.nv_side_bar);
         bt_Rob_Order = (Button) findViewById(R.id.bt_rob_order);
         bt_See_Details = (Button) findViewById(R.id.bt_see_details);
+        start_go = (ImageButton) findViewById(R.id.start_go);
         baiduMap = bdMapView.getMap();  //得到百度地图实例
         baiduMap.setMyLocationEnabled(true);    //设置我的位置图层开启
         mOnMapClickImpl = new OnMapClickImpl(this, baiduMap);   //实例化对应的接口实现类
         mOnMarkerClickImpl = new OnMarkerClickImpl(this, baiduMap);
-        mBaiDuMapUtil = new BaiDuMapUtil(baiduMap);             //实例化自己封装的工具类
+        mBaiDuMapUtil = new BaiDuMapUtil(baiduMap, this);             //实例化自己封装的工具类
         mBaiDuMapUtil.initLocation(mLocationClient);            //初始化地图以及地图的设置
     }
 
@@ -182,7 +191,7 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //得到LoginActivity传过来的engineer
                 Engineer engineer = (Engineer) getIntent().getSerializableExtra("engineer");
-                Log.d("MainActivity2", "engineer: "+engineer);
+                Log.d("MainActivity2", "engineer: " + engineer);
                 if (R.id.it_nav_call == item.getItemId()) {
                     //跳转到对应列表
                     OrderListActivity.actionStart(MainActivity2.this, OrderListActivity.NO_FINISH_ORDER);
@@ -192,7 +201,7 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
                     Toast.makeText(MainActivity2.this, "完成订单", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_location == item.getItemId()) {
                     //MyInfoActivity.actionStart(MainActivity2.this, null, null, null);
-                    Intent intent = new Intent(MainActivity2.this,MyInfoActivity.class);
+                    Intent intent = new Intent(MainActivity2.this, MyInfoActivity.class);
                     startActivity(intent);
                     Toast.makeText(MainActivity2.this, "我的信息", Toast.LENGTH_SHORT).show();
                 } else if (R.id.it_nav_mail == item.getItemId()) {
@@ -220,6 +229,15 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
                 Toast.makeText(MainActivity2.this, "点击了查看详情", Toast.LENGTH_SHORT).show();
             }
         });
+
+        start_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (BaiduNaviManager.isNaviInited()){
+                    mBaiDuMapUtil.routeplanToNavi();
+                }
+            }
+        });
     }
 
     /**
@@ -228,7 +246,7 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
     private void requestLocation() {
         mBaiDuMapUtil.initMyLocationConfiguration();
         //开始定位
-        mLocationClient.start();
+        //mLocationClient.start();
         //清除百度地图的logo和比例尺以及缩放尺
         mBaiDuMapUtil.changeDefaultBaiduMapView(bdMapView);
         mBaiDuMapUtil.initMarksData(mOnMarkerClickImpl, mOnMapClickImpl);
@@ -260,6 +278,21 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         }
     }
 
+    /**
+     * 绑定地图和activity的生命周期
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //myLocationClient.start();//将定位与Activity生命周期进行绑定，开启定位
+        baiduMap.setMyLocationEnabled(true);    //开启允许定位
+        if (!mLocationClient.isStarted()) {
+            mLocationClient.start();//开始定位
+        }
+        //开启方向传感器
+        mBaiDuMapUtil.myOrientationListener.start();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -272,12 +305,24 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         bdMapView.onPause();
     }
 
+    //当Activity调用onStop方法，关闭定位以及关闭方向传感器
+    @Override
+    protected void onStop() {
+        super.onStop();
+        baiduMap.setMyLocationEnabled(false);
+        mLocationClient.stop();//将定位与Activity生命周期进行绑定，关闭定位
+        mBaiDuMapUtil.myOrientationListener.stop();//关闭方向传感器
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mLocationClient.stop();
         bdMapView.onDestroy();
         baiduMap.setMyLocationEnabled(false);
+        //unregisterReceiver();
+        //解除广播
+        NetworkChangeReceiver.unregisterNetworkChangeReceiver();
     }
 
     @Override
@@ -287,6 +332,4 @@ public class MainActivity2 extends AppCompatActivity implements ActivityInitCont
         startActivity(home);
         return super.onKeyDown(keyCode, event);
     }
-
-
 }

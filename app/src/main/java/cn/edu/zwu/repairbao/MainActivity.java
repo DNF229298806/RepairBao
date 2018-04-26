@@ -46,7 +46,7 @@ import com.baidu.mapapi.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.zwu.repairbao.bean.MarkInfo;
+import cn.edu.zwu.repairbao.Bean.MarkInfo;
 
 import static cn.edu.zwu.repairbao.R.drawable.mark;
 

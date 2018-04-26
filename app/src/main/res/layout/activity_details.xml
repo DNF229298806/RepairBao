@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <cn.edu.zwu.repairbao.ImageSlideshow
+                <cn.edu.zwu.repairbao.MyUI.ImageSlideshow
                     android:id="@+id/is_gallery"
                     android:layout_width="match_parent"
                     android:layout_height="212dp"

@@ -15,9 +15,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.zwu.repairbao.Adapter.MarkInfoAdapter;
+import cn.edu.zwu.repairbao.Bean.MarkInfo;
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
-import cn.edu.zwu.repairbao.adapter.MarkInfoAdapter;
-import cn.edu.zwu.repairbao.bean.MarkInfo;
 
 /**
  * 切换功能没有实现  注意52行的注释 没有实现“完成订单界面”到“详情界面”的跳转

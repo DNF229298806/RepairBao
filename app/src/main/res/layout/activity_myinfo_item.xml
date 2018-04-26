@@ -136,7 +136,7 @@
                     android:textColor="#000"
                     android:textSize="18sp"/>
 
-                <cn.edu.zwu.repairbao.DeleteEditText
+                <cn.edu.zwu.repairbao.MyUI.DeleteEditText
                     android:id="@+id/det_myinfo_item_old_pwd"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                     android:textColor="#000"
                     android:textSize="18sp"/>
 
-                <cn.edu.zwu.repairbao.DeleteEditText
+                <cn.edu.zwu.repairbao.MyUI.DeleteEditText
                     android:id="@+id/det_myinfo_item_new_pwd"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                     android:textColor="#000"
                     android:textSize="18sp"/>
 
-                <cn.edu.zwu.repairbao.DeleteEditText
+                <cn.edu.zwu.repairbao.MyUI.DeleteEditText
                     android:id="@+id/det_myinfo_item_new_pwd_again"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"

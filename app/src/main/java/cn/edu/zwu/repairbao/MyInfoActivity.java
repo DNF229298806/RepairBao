@@ -19,9 +19,9 @@ import com.wyp.avatarstudio.AvatarStudio;
 
 import java.io.File;
 
+import cn.edu.zwu.repairbao.Gson.Engineer;
 import cn.edu.zwu.repairbao.Interface.ActivityInitControl;
-import cn.edu.zwu.repairbao.gson.Engineer;
-import cn.edu.zwu.repairbao.util.JsonUtil;
+import cn.edu.zwu.repairbao.Util.JsonUtil;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -73,9 +73,6 @@ public class MyInfoActivity extends AppCompatActivity implements ActivityInitCon
         //得到MainActivity2传过来的engineer 开始初始化界面把json中的信息填入控件
         //Engineer engineer = (Engineer) getIntent().getSerializableExtra("engineer");
         String json = JsonUtil.getJson(MyInfoActivity.this);
-        if (json != null) {
-            System.out.println("通过SharedPreferences读取出来的json：" + json);
-        }
         Engineer engineer = JsonUtil.handleEngineerResponse(json);
         Log.d("MyInfoActivity", "engineer " + engineer);
         tv_user_name.setText(engineer.engineerData.name);
